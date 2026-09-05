@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="PlatformeShooter.cpp" />
     <ClCompile Include="PlatformManager.cpp" />
@@ -136,6 +137,7 @@
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="PlatformManager.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="Entity.h" />
