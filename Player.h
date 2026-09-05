@@ -7,9 +7,9 @@ public:
     float xVelocity = 0.0f;
     float yVelocity = 0.0f;
 
-    float speed = 300.0f;       
-    float gravity = 980.0f;     
-    float jumpForce = -500.0f;  
+    float speed = 500.0f;       
+    float gravity = 2000.0f;     
+    float jumpForce = -800.0f;  
 
     bool isGrounded = false;    
 
