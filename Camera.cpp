@@ -6,9 +6,19 @@ Camera::Camera() {
     reset();
 }
 
+void Camera::addScroll(float amount) {
+    totalY += amount;
+    float currentMeters = totalY / Settings::PIXELS_PER_METER;
+    if (currentMeters > maxMeters) {
+        maxMeters = currentMeters;
+    }
+}
+
 void Camera::reset() {
     targetScrollY = 0.0f;
     currentScrollY = 0.0f;
+    totalY = 0.0f;
+    maxMeters = 0.0f;
 }
 
 void Camera::updateTarget(Player* player, float targetScreenY) {
