@@ -7,6 +7,7 @@
 #include "Settings.h"
 #include <vector>
 #include <memory>
+#include "PlatformManager.h"
 
 static SDL_Window* window = NULL;
 static SDL_Renderer* renderer = NULL;
@@ -14,6 +15,7 @@ static SDL_Renderer* renderer = NULL;
 extern std::vector<std::unique_ptr<Entity>> worldEntities;
 Player* player = nullptr;
 Uint64 lastTime = 0;
+static PlatformManager platformManager;
 
 SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[])
 {
@@ -34,9 +36,7 @@ SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[])
     player = playerEntity.get();
     worldEntities.push_back(std::move(playerEntity));
 
-    worldEntities.push_back(std::make_unique<Entity>(
-        0.0f, 450.0f, 640.0f, 30.0f, SDL_FColor{ 0.5f, 0.5f, 0.5f, 1.0f }
-    ));
+    platformManager.init(player->jumpForce,player->gravity);
 
     return SDL_APP_CONTINUE;
 }
@@ -60,6 +60,8 @@ SDL_AppResult SDL_AppIterate(void* appstate)
 
     SDL_SetRenderDrawColorFloat(renderer, 0.0f, 0.0f, 0.0f, SDL_ALPHA_OPAQUE_FLOAT);
     SDL_RenderClear(renderer);
+
+    platformManager.update(0.0f);
 
     for (auto& entity : worldEntities)
     {

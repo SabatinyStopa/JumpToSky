@@ -131,10 +131,12 @@
   <ItemGroup>
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="PlatformeShooter.cpp" />
+    <ClCompile Include="PlatformManager.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="PlatformManager.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Player.h" />
