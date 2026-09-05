@@ -6,4 +6,4 @@ You gain meters while you go up.
 
 Made for testing some platform generator algorithms.
 
-[!Project Image](ReadMe.png)
+<img src="ReadMe.png">
