@@ -10,6 +10,6 @@ public:
     virtual ~Entity() = default;
 
     virtual void update(float deltaTime);
-    virtual void render(SDL_Renderer* renderer) const; // Adicionado virtual aqui também
+    virtual void render(SDL_Renderer* renderer) const;
 };
 

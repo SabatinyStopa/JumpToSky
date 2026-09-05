@@ -4,14 +4,15 @@
 
 #include "Entity.h"
 #include "Player.h"
+#include "Settings.h"
 #include <vector>
 #include <memory>
 
 static SDL_Window* window = NULL;
 static SDL_Renderer* renderer = NULL;
 
-std::vector<std::unique_ptr<Entity>> entities;
-
+extern std::vector<std::unique_ptr<Entity>> worldEntities;
+Player* player = nullptr;
 Uint64 lastTime = 0;
 
 SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[])
@@ -23,13 +24,19 @@ SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[])
         return SDL_APP_FAILURE;
     }
 
-    if (!SDL_CreateWindowAndRenderer("My Game", 640, 480, SDL_WINDOW_RESIZABLE, &window, &renderer)) {
+    if (!SDL_CreateWindowAndRenderer("My Game", Settings::SCREEN_WIDTH, Settings::SCREEN_HEIGHT, SDL_WINDOW_RESIZABLE, &window, &renderer)) {
         SDL_Log("Couldn't create window/renderer: %s", SDL_GetError());
         return SDL_APP_FAILURE;
     }
-    SDL_SetRenderLogicalPresentation(renderer, 640, 480, SDL_LOGICAL_PRESENTATION_LETTERBOX);
+    SDL_SetRenderLogicalPresentation(renderer, Settings::SCREEN_WIDTH, Settings::SCREEN_HEIGHT, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 
-    entities.push_back(std::make_unique<Player>(0.0f, 440.0f, 20.0f, 20.0f));
+    auto playerEntity = std::make_unique<Player>(310.0f, 300.0f, 20.0f, 20.0f);
+    player = playerEntity.get();
+    worldEntities.push_back(std::move(playerEntity));
+
+    worldEntities.push_back(std::make_unique<Entity>(
+        0.0f, 450.0f, 640.0f, 30.0f, SDL_FColor{ 0.5f, 0.5f, 0.5f, 1.0f }
+    ));
 
     return SDL_APP_CONTINUE;
 }
@@ -54,20 +61,19 @@ SDL_AppResult SDL_AppIterate(void* appstate)
     SDL_SetRenderDrawColorFloat(renderer, 0.0f, 0.0f, 0.0f, SDL_ALPHA_OPAQUE_FLOAT);
     SDL_RenderClear(renderer);
 
-    for (auto& entity : entities)
+    for (auto& entity : worldEntities)
     {
         entity->update(deltaTime);
         entity->render(renderer);
     }
 
     SDL_RenderPresent(renderer);
-
     return SDL_APP_CONTINUE;
 }
 
 void SDL_AppQuit(void* appstate, SDL_AppResult result)
 {
-    entities.clear();
+    worldEntities.clear();
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 }
